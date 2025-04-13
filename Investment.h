@@ -17,19 +17,22 @@ public:
     //Default constructor
     Investment();
     //Parameterized constructor
-    Investment(const std::string& name, const int price, const double rating);
+    Investment(const std::string& name, const int price, const double popularity);
 
     //Accessors
-    const std::string& getInvestmentName() const;
-    int getInvestmentPrice() const;
-    double getInvestmentPopularity() const;
+    const std::string& getName() const;
+    int getPrice() const;
+    double getPopularity() const;
 
     //Mutators
     void setName(const std::string& name);
-    void setInvestmentPrice(const int price);
-    void setInvestmentPopularity(const int rating);
+    void setPrice(const int price);
+    void setPopularity(const double popularity);
 
     //Overrides
+
+    //Prints investment info
+    virtual void getInfo() const;
 
 };
 

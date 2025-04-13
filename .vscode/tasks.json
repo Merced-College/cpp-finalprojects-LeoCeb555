@@ -9,6 +9,7 @@
                 "-g",
                 "${file}",
                 "Investment.cpp",
+                "Stock.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
