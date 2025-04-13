@@ -10,6 +10,7 @@
                 "${file}",
                 "Investment.cpp",
                 "Stock.cpp",
+                "StockData.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

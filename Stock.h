@@ -4,12 +4,14 @@
 #include <string>
 #include <iostream>
 
+//Derived class from base class Investment
 class Stock : public Investment{
 private:
-    std::string symbol;
-    std::string sector; // (Tech, Finance, Healthcare, Consumer, Energy, Industrials, Utilities)
-    double volatility;
-    double potential;
+    std::string symbol; //Used for stock ticker symbol
+    std::string sector; /*Used for organization and also affects volatility/potential;
+                        Tech, Finance, Healthcare, Consumer, Energy, Industrials, Utilities*/
+    double volatility; //Used to determine chances of change
+    double potential; //Used to determine what type of change occurs
 
 public:
     //Default constructor
@@ -35,6 +37,6 @@ public:
     void getInfo() const override;
 
     //New functions
-    void simulateDay();
+    void simulateDay(); //Randomly edits stocks based on attributes (meant to represent a month of real life time)
 };
 #endif

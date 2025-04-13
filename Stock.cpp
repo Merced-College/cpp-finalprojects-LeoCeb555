@@ -50,8 +50,6 @@ void Stock::getInfo() const{
 }
 
 //New functions
-
-//Randomly edits stocks based on attributes
 void Stock::simulateDay(){
 
 }
