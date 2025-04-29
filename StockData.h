@@ -3,15 +3,20 @@
 #include "Stock.h"
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 class StockData{
 private:
     std::vector <Stock> stocks; //Vector to store stocks
+    std::unordered_map<std::string, Stock*> symbolTable; //Hash table to store stocks
 
 public:
     //Accessor
     const std::vector<Stock>& getStocks() const;
     //Functions
     bool loadFromFile(const std::string& filename); //To open file and parse stocks into vector
+    Stock* getStockBySymbol(const std::string& symbol); //For efficient searching of stocks by symbol
+    void printLoadedStocks() const;
+    void printLoadedStocks2() const;
 };
 #endif

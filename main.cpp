@@ -17,9 +17,25 @@ int main() {
     StockData stocks;
     stocks.loadFromFile("stocks.txt");
 
+    /*
     for (const auto& stock : stocks.getStocks()) {
         std::cout << stock.getName() << ": $" << stock.getPrice() << std::endl;
-    }
+    }*/
+
+    //stocks.getStocks()[0].getInfo();
+
+    //Stock* stock = stocks.getStockBySymbol("TSLA");
+    
+    stocks.printLoadedStocks2(); //FOR TESTING
+
+    /*if (Stock* intcStock = stocks.getStockBySymbol("INTC")) {
+        std::cout << "Found INTC stock!" << std::endl;
+        intcStock->getInfo();
+    } else {
+        std::cerr << "INTC stock not found in symbol table!" << std::endl;
+    }*/
+
+    //stocks.getStockBySymbol("MS")->getInfo();
 
     return 0;
 }
