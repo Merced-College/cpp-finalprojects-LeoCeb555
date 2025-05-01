@@ -16,7 +16,7 @@ public:
     //Functions
     bool loadFromFile(const std::string& filename); //To open file and parse stocks into vector
     Stock* getStockBySymbol(const std::string& symbol); //For efficient searching of stocks by symbol
-    void printLoadedStocks() const;
-    void printLoadedStocks2() const;
+    void printLoadedVectorStocks() const;
+    void printLoadedHashTableStocks() const;
 };
 #endif

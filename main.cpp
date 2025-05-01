@@ -26,7 +26,11 @@ int main() {
 
     //Stock* stock = stocks.getStockBySymbol("TSLA");
     
-    stocks.printLoadedStocks2(); //FOR TESTING
+    //stocks.printLoadedHashTableStocks();
+    //std::cout << ";";
+    //std::cout << stocks.getStockBySymbol("MSFT")->getName() << std::endl;
+    //stocks.getStockBySymbol("MSFT")->getInfo();
+    //std::cout << ";";
 
     /*if (Stock* intcStock = stocks.getStockBySymbol("INTC")) {
         std::cout << "Found INTC stock!" << std::endl;
