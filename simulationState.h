@@ -6,12 +6,15 @@ class simulationState{
 private:
     std::string userName;
     int cashAmount;
-    const std::string gameMode;
+    std::string simulationMode;
 public:
     std::string getUserName() const;
     void setUserName(const std::string name);
     int getCashAmount() const;
     void setCashAmount(const int cash);
+    std::string getSimulationMode() const;
+    void setSimulationMode(const std::string mode);
+    void setupSimulation();
 };
 
 #endif

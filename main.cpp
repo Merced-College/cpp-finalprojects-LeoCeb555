@@ -10,9 +10,7 @@ int main() {
     StockData stocks;
     stocks.loadFromFile("stocks.txt");
 
-    std::string string = Menu::printFirstSequenceAndGetName(); //
-    state.setUserName(string);
-    std::cout << state.getUserName();
+    state.setupSimulation();
 
 
 
