@@ -11,6 +11,8 @@
                 "Investment.cpp",
                 "Stock.cpp",
                 "StockData.cpp",
+                "Menu.cpp",
+                "simulationState.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

@@ -48,8 +48,7 @@ bool StockData::loadFromFile(const std::string& filename){
     return true;
 }
 
-//CHATGPT
-Stock* StockData::getStockBySymbol(const std::string& symbol) {
+Stock* StockData::getStockBySymbol(const std::string& symbol) { //Function to locate Stock's pointer in hash table
     auto it = symbolTable.find(symbol);
     
     // Check if the symbol exists in the hash table and the pointer is valid
@@ -63,7 +62,7 @@ Stock* StockData::getStockBySymbol(const std::string& symbol) {
 }
 
 
-//FOR TESTING VECTOR OBJECTS
+/*FOR TESTING VECTOR OBJECTS
 void StockData::printLoadedVectorStocks() const {
     for (const Stock& stock : stocks) {
         std::cout << "Name: " << stock.getName() 
@@ -83,4 +82,9 @@ void StockData::printLoadedHashTableStocks() const {
         
         stock->getInfo();
     }
+}
+*/
+
+void StockData::printStockInfo(const std::string symbol){
+    symbolTable[symbol]->getInfo();
 }
