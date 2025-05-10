@@ -88,3 +88,11 @@ void StockData::printLoadedHashTableStocks() const {
 void StockData::printStockInfo(const std::string symbol){
     symbolTable[symbol]->getInfo();
 }
+
+void StockData::modifyStockValuesBySector(){
+    for (Stock stock : stocks){
+        if (stock.getSector() == "TECH"){
+            
+        }
+    }
+}

@@ -19,5 +19,6 @@ public:
     //void printLoadedVectorStocks() const; FOR TESTING
     //void printLoadedHashTableStocks() const; FOR TESTING
     void printStockInfo(const std::string symbol);
+    void modifyStockValuesBySector();
 };
 #endif

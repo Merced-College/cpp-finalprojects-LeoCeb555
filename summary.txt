@@ -1,0 +1,7 @@
+The program I chose to make is a stock investment simulator! The main purpose of this program is
+to teach the user the basics of stock investment (really basic) without any of the risk involved.
+Furthermore, it's also meant to entertaining with a few options for game modes. So far, I've written
+seven different classes each with a specific purpose. Inside of these classes, I have implemented
+object creation, inheritance, a hash table, sorting, etc. I plan on finishing the rest of the project
+which involves adding another class that deals with simulation logic and adding sorted vectors to track
+rankings.

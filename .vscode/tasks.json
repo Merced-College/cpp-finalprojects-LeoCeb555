@@ -12,7 +12,8 @@
                 "Stock.cpp",
                 "StockData.cpp",
                 "Menu.cpp",
-                "simulationState.cpp",
+                "SimulationState.cpp",
+                "User.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
