@@ -48,16 +48,19 @@ bool StockData::loadFromFile(const std::string& filename){
     return true;
 }
 
-Stock* StockData::getStockBySymbol(const std::string& symbol) { //Function to locate Stock's pointer in hash table
-    auto it = symbolTable.find(symbol);
+const Stock* StockData::getStockBySymbol(const std::string& symbol) const{ //Function to locate Stock's pointer in hash table
     
     // Check if the symbol exists in the hash table and the pointer is valid
-    if (it != symbolTable.end() && it->second != nullptr) {
-        return it->second;
-    }
+    auto it = symbolTable.find(symbol);  // Single lookup
+    return (it != symbolTable.end()) ? it->second : nullptr;
+}
 
-    // If not found, print error and return nullptr
-    std::cerr << "[Error] Stock with symbol '" << symbol << "' not found!" << std::endl;
+const Stock* StockData::getStockByName(const std::string& name) const{
+    for (const Stock& stock : getStocks()){
+        if (stock.getName() == name){
+            return &stock;
+        }
+    }
     return nullptr;
 }
 
@@ -96,3 +99,4 @@ void StockData::modifyStockValuesBySector(){
         }
     }
 }
+
