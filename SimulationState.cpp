@@ -9,20 +9,19 @@ void SimulationState::setSimulationMode(const std::string mode){
     simulationMode = mode;
 };
 
-void SimulationState::setupSimulation(User user){
-    stocks.loadFromFile("stocks.txt");
-    Menu::beginSetupPrompt();
+void SimulationState::setupSimulation(){
+    stocks.loadFromFile("stocks.txt"); //starts setup by loading stocks in
+    Menu::promptToBeginSetup();
     user.setUserName(Menu::promptForUserName());
     user.setCashAmount(Menu::promptForCashAmount());
     setSimulationMode(Menu::promptForSimulationMode());
-    Menu::endSetupPrompt();
+    Menu::promptToEndSetup();
 };
 
-void SimulationState::runSimulation(User player){
-    stocks.loadFromFile("stocks.txt"); //starts stimulation by loading stocks in
+void SimulationState::runSimulation(){
     int day = 1; //variable to track days, start on first day
-    bool inMainInterface = true, inInvestInterface = false, inSearchInterface = false, 
-        inBuyInterface = false, inRankingsInterface = false; //bool flags to track 
+    bool inMainInterface = true, inInvestInterface = false, inPortfolioInterface = false,
+        inSearchInterface = false, inBuyInterface = false, inRankingsInterface = false; //bool flags to track 
         //what menu displays and control flow
 
     while(day <= 7){ //simulation occurs for seven days 
@@ -33,11 +32,23 @@ void SimulationState::runSimulation(User player){
                     inInvestInterface = true;
                     break;
                 case 2:
+                    inMainInterface = false;
+                    inPortfolioInterface = true;
+                    break;
+                case 3:
                     //simulateDay() updates stocks with changes
                     day++; //moves to next day and breaks switch
+                    //std::cout << "USER CASH: " << user.getCashAmount();
                     break;
                 default:
                     break;
+            }
+        }
+        else if(inPortfolioInterface){
+            switch(Menu::displayPortfolioInterface(user)){
+                case 1:
+                    inPortfolioInterface = false;
+                    inMainInterface = true;
             }
         }
         else if(inInvestInterface){ //while not in main menu, checks if user in investing menu
@@ -51,8 +62,8 @@ void SimulationState::runSimulation(User player){
                     inBuyInterface = true;
                     break;
                 case 3: //button 3 is selected (view full rankings)
-                    inInvestInterface = false; //sets bool flags to false since user
-                    inRankingsInterface = true;
+                    //inInvestInterface = false; //sets bool flags to false since user
+                    //inRankingsInterface = true;
                     break;
                 case 4: //button 4 is selected (go back)
                     inInvestInterface = false; //sets bool flag to false since user is no longer in invest menu
@@ -64,35 +75,67 @@ void SimulationState::runSimulation(User player){
         }
         else if (inSearchInterface){
             switch(Menu::displaySearchStockInterface()){
-            int tracker;
-            case 1: //Search by stock ticker symbol
-                do{
-                    tracker = Menu::displayStockSearchBySymbol(stocks);
-                    switch(tracker){
-                        case 0:
-                            break;
-                        case 2:
-                            break;
+                int tracker;
+                case 1: //Search by stock ticker symbol
+                    do{
+                        tracker = Menu::promptToSearchStockBySymbol(stocks);
+                        switch(tracker){
+                            case 0:
+                                break;
+                            case 2:
+                                break;
+                        }
+                    }while(tracker == 1);
+                    break;
+                case 2:
+                    //Search by stock name
+                    do{
+                        tracker = Menu::promptToSearchStockByName(stocks);
+                        switch(tracker){
+                            case 0:
+                                break;
+                            case 2:
+                                break;
+                        }
+                    }while(tracker == 1);
+                    break;
+                case 3:
+                    //Go back
+                    inInvestInterface = true;
+                    inSearchInterface = false;
+                    break;
+            }
+        }
+        else if(inBuyInterface){
+            switch(Menu::displayBuyStockInterface()){
+                const Stock* stock;
+                int amount;
+                case 1: //buy stock by symbol
+                    stock = Menu::promptToGetBoughtStockUsingSymbol(stocks);
+                    if(stock != nullptr){
+                        amount = Menu::promptToGetBoughtShares(user.getCashAmount(), stock);
+                        if (amount != 0){
+                            user.addStockShares(stock->getSymbol(), amount);
+                            user.setCashAmount(user.getCashAmount() - (stock->getPrice() * amount));
+                            //std::cout << "User cash: " << user.getCashAmount();
+                        }
                     }
-                }while(tracker == 1);
-                break;
-            case 2:
-                //Search by stock name
-                do{
-                    tracker = Menu::displayStockSearchByName(stocks);
-                    switch(tracker){
-                        case 0:
-                            break;
-                        case 2:
-                            break;
+                    break;
+                case 2: //buy stock by name
+                    stock = Menu::promptToGetBoughtStockUsingName(stocks);
+                    if(stock != nullptr){
+                        amount = Menu::promptToGetBoughtShares(user.getCashAmount(), stock);
+                        if (amount != 0){
+                            user.addStockShares(stock->getSymbol(), amount);
+                            user.setCashAmount(user.getCashAmount() - (stock->getPrice() * amount));
+                            //std::cout << "User cash: " << user.getCashAmount();
+                        }
                     }
-                }while(tracker == 1);
-                break;
-            case 3:
-                //Go back
-                inInvestInterface = true;
-                inSearchInterface = false;
-                break;
+                    break;
+                case 3:
+                    inBuyInterface = false;
+                    inInvestInterface = true;
+                    break;
             }
         }
     }

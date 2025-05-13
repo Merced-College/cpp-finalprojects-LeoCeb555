@@ -13,8 +13,8 @@ private:
 public:
     std::string getSimulationMode() const;
     void setSimulationMode(const std::string mode);
-    void setupSimulation(User user);
-    void runSimulation(User user);
+    void setupSimulation();
+    void runSimulation();
 };
 
 #endif

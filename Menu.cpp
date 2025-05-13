@@ -1,9 +1,17 @@
+#include "textTools.h"
 #include "Menu.h"
+#include "User.h"
 #include <iostream>
 #include <string>
 #include <cctype>
 #include <cstdlib>
 #include <limits>
+
+using textTools::blueTextStart;
+using textTools::redTextStart;
+using textTools::greenTextStart;
+using textTools::yellowTextStart;
+using textTools::coloredTextEnd;
 
 
 const std::string Menu::Menu::getAction(int i) const{
@@ -32,13 +40,6 @@ void Menu::Menu::printAllButtons(){
 
 
 //START OF NAMESPACE FUNCTIONS
-std::string Menu::makeLowercase(const std::string word){
-    std::string temp;
-    for (char a : word){
-        temp += (tolower(a));
-    }
-    return temp;
-}
 
 void Menu::printCashMenu(){
     Menu cashMenu;
@@ -69,7 +70,8 @@ void Menu::printGameModeMenu(){
 void Menu::printMainMenu(){
     Menu mainMenu;
     mainMenu.addButton("1", "Invest");
-    mainMenu.addButton("2", "Simulate day");
+    mainMenu.addButton("2", "View portfolio");
+    mainMenu.addButton("3", "Simulate day");
 
     std::cout << greenTextStart << "StockSim: None of the Risk, All of the Fun\n\n" << 
     yellowTextStart << "What would you like to do?\n";
@@ -81,13 +83,24 @@ void Menu::printInvestMenu(){
     Menu investMenu;
     investMenu.addButton("1", "Search for Stock");
     investMenu.addButton("2", "Buy a Stock");
-    investMenu.addButton("3", "View full rankings");
+    investMenu.addButton("3", "View full rankings (UNDER CONSTRUCTION)");
     investMenu.addButton("4", "Go back");
 
-    std::cout << yellowTextStart << "TOP MOVERS TODAY:\n\n" << redTextStart
+    std::cout << yellowTextStart << "TOP MOVERS TODAY: (UNDER CONSTRUCTION)\n\n" << redTextStart
     << yellowTextStart << "What would you like to do?\n";
 
     investMenu.printAllButtons();
+}
+
+void Menu::printPortfolioMenu(User user){
+    Menu portfolioMenu;
+    portfolioMenu.addButton("1", "Go back");
+
+    std::cout << redTextStart << "User: " << yellowTextStart << user.getUserName() 
+    << redTextStart << "\nCash Amount: " << yellowTextStart << "$" << user.getCashAmount() << "\n";
+
+    printStockInventory(user);
+    portfolioMenu.printAllButtons();
 }
 
 void Menu::printSearchStockMenu(){
@@ -96,7 +109,7 @@ void Menu::printSearchStockMenu(){
     searchStockMenu.addButton("2", "Search Stock by Name");
     searchStockMenu.addButton("3", "Go back");
 
-    std::cout << "Searching for stock... would you like to search using " << greenTextStart << "ticker symbol"
+    std::cout << "Would you like to search using a " << greenTextStart << "ticker symbol"
         << coloredTextEnd << " or " << greenTextStart << "name" << coloredTextEnd << "?\n";
 
     searchStockMenu.printAllButtons();
@@ -116,7 +129,20 @@ void Menu::printBuyStockMenu(){
     buyStockMenu.addButton("2", "Buy Stock by Name");
     buyStockMenu.addButton("3", "Go back");
 
+    std::cout << "Would you like to buy using a " << greenTextStart << "ticker symbol"
+        << coloredTextEnd << " or " << greenTextStart << "name" << coloredTextEnd << "?\n";
+
     buyStockMenu.printAllButtons();
+}
+
+void Menu::printStockInventory(User user){
+    if (user.getStockInventory().empty() == 1){
+        std::cout << redTextStart << "\nNo investments made\n" << coloredTextEnd;
+    }
+    for(std::pair<std::string, int> pair : user.getStockInventory()){
+        std::cout << greenTextStart << "\nStock symbol: " << yellowTextStart << pair.first 
+        << greenTextStart << "\nAmount of shares: " << yellowTextStart << pair.second << "\n";
+    }
 }
 
 //CREATED BY CHATGPT:
@@ -133,16 +159,16 @@ int Menu::menuInputAndCheck(const int& min, const int& max) {
                 return choice;
             }
 
-            std::cout << "Please enter a " << redTextStart << "number" << coloredTextEnd << " between " << min << " and " << max << ": ";
+            std::cout << "\nPlease enter a " << redTextStart << "number" << coloredTextEnd << " between " << min << " and " << max << ": ";
         } catch (const std::invalid_argument&) {
-            std::cout << "That is not a " << redTextStart << "number" << coloredTextEnd << ". Try again: ";
+            std::cout << "\nThat is not a " << redTextStart << "number" << coloredTextEnd << ". Try again: ";
         } catch (const std::out_of_range&) {
-            std::cout << "Number out of " << redTextStart << "range" << coloredTextEnd << ". Try again: ";
+            std::cout << "\nNumber out of " << redTextStart << "range" << coloredTextEnd << ". Try again: ";
         }
     }
 }
 
-void Menu::beginSetupPrompt(){
+void Menu::promptToBeginSetup(){
     std::cout << greenTextStart << "Welcome to StockSim!\n\n" << coloredTextEnd << "Here in the world of stock simulation, you" <<
         " are given the chance to learn about stocks and how they work in the real world \nWITHOUT losing" <<
         " your life-savings! Doesn't that sound great?\n\n";
@@ -203,7 +229,7 @@ std::string Menu::promptForSimulationMode(){
     }
 }
 
-void Menu::endSetupPrompt(){
+void Menu::promptToEndSetup(){
 
     std::string input;
 
@@ -213,18 +239,118 @@ void Menu::endSetupPrompt(){
         "trading type " << blueTextStart << "start" << coloredTextEnd << ": ";
     std::getline(std::cin, input);
     
-    while (makeLowercase(input) != "start"){
+    while (textTools::makeLowercase(input) != "start"){
         std::cout << "\nPlease enter " << redTextStart << "start" << coloredTextEnd << " to continue: ";
         std::getline(std::cin, input);
     }
     std::system("clear");
 }
 
+int Menu::promptToSearchStockBySymbol(const StockData& stocks){
+
+    std::cout << "Please type in the stock's " << greenTextStart << "symbol" << coloredTextEnd << ":\n\n";
+    std::string symbol;
+    std::getline(std::cin, symbol);
+
+    std::cout << "\nSearching for stock by " << greenTextStart << "symbol" << coloredTextEnd << "...\n\n";
+
+    const Stock* stock = stocks.getStockBySymbol(symbol);
+
+    if(stock != nullptr){
+        std::cout << "Here is all available stock info:\n\n";
+        stock->getInfo();
+        return 0;
+    }
+    else{
+        std::cout << redTextStart << "No stock found." << coloredTextEnd << "\n\nSelect an option:\n";
+        return displaySearchStockErrorInterface();
+    }
+}
+
+int Menu::promptToSearchStockByName(const StockData& stocks){
+    std::cout << "Please type in the stock's " << greenTextStart << "name" << coloredTextEnd << ":\n\n";
+    std::string name;
+    std::getline(std::cin, name);
+    std::cout << "\nSearching for stock by " << greenTextStart << "name" << coloredTextEnd << "...\n\n";
+
+    const Stock* stock = stocks.getStockByName(name);
+
+    if(stock != nullptr){
+        std::cout << "Here is all available stock info:\n\n";
+        stock->getInfo();
+        return 0;
+    }
+    else{
+        std::cout << redTextStart << "No stock found." << coloredTextEnd << "\n\nSelect an option:\n";
+        return displaySearchStockErrorInterface();
+    }
+}
+
+const Stock* Menu::promptToGetBoughtStockUsingSymbol(const StockData& stocks){
+
+    while (true){
+        std::cout << "Please type in the stock's " << greenTextStart << "symbol" << coloredTextEnd << ":\n\n";
+
+        std::string symbol;
+        std::getline(std::cin, symbol);
+
+        const Stock* stock = stocks.getStockBySymbol(symbol);
+
+        if(stock){
+            std::system("clear");
+            return stock;
+        }
+        
+        std::cout << redTextStart << "\nNot a valid stock:\n\n" << coloredTextEnd;
+        if(displaySearchStockErrorInterface() != 1){
+            std::system("clear");
+            return nullptr;
+        }
+    }
+}
+
+const Stock* Menu::promptToGetBoughtStockUsingName(const StockData& stocks){
+
+    while (true){
+        std::cout << "Please type in the stock's " << greenTextStart << "name" << coloredTextEnd << ":\n\n";
+
+        std::string name;
+        std::getline(std::cin, name);
+
+        const Stock* stock = stocks.getStockByName(name);
+
+        if(stock){
+            std::system("clear");
+            return stock;
+        }
+        
+        std::cout << redTextStart << "\nNot a valid stock:\n\n" << coloredTextEnd;
+        if(displaySearchStockErrorInterface() != 1){
+            std::system("clear");
+            return nullptr;
+        }
+    }
+}
+
+int Menu::promptToGetBoughtShares(int cash, const Stock* stock){
+    std::cout << greenTextStart << "CURRENTLY BUYING: " << yellowTextStart << stock->getSymbol();
+
+     std::cout << blueTextStart << "\n\nUser cash: " << yellowTextStart << "$" << cash << 
+        blueTextStart << "\nShare price: " << yellowTextStart << "$" << stock->getPrice();
+    int maxStocks = tradingTools::calculateStocksAbleToBuy(cash, stock->getPrice());
+    
+    std::cout << redTextStart << "\n\nYou can buy a total of: " << maxStocks << " shares\n\n"
+        << coloredTextEnd << "How many shares would you like to buy? " <<
+        redTextStart << "('0' to cancel)\n\n" << coloredTextEnd;
+    
+    return menuInputAndCheck(0, maxStocks);
+}
+
 int Menu::displayMainInterface(){
 
     printMainMenu();
     
-    return menuInputAndCheck(1, 2);
+    return menuInputAndCheck(1, 3);
 }
 
 int Menu::displayInvestInterface(){
@@ -233,48 +359,26 @@ int Menu::displayInvestInterface(){
     return menuInputAndCheck(1,4);
 }
 
+int Menu::displayPortfolioInterface(User user){
+    printPortfolioMenu(user);
+
+    return menuInputAndCheck(1,1);
+}
+
 int Menu::displaySearchStockInterface(){
     printSearchStockMenu();
 
     return menuInputAndCheck(1, 3);
 }
 
+int Menu::displaySearchStockErrorInterface(){
+    printSearchStockErrorMenu();
+
+    return menuInputAndCheck(1, 2);
+}
+
 int Menu::displayBuyStockInterface(){
     printBuyStockMenu();
 
     return menuInputAndCheck(1, 3);
-}
-
-int Menu::displayStockSearchBySymbol(const StockData& stocks){
-    std::string symbol;
-    std::getline(std::cin, symbol);
-
-    const Stock* stock = stocks.getStockBySymbol(symbol);
-
-    if(stock != nullptr){
-        stock->getInfo();
-        return 0;
-    }
-    else{
-        std::cout << "No stock found. Please select an option:\n";
-        printSearchStockErrorMenu();
-        return menuInputAndCheck(1,2);
-    }
-}
-
-int Menu::displayStockSearchByName(const StockData& stocks){
-    std::string name;
-    std::getline(std::cin, name);
-
-    const Stock* stock = stocks.getStockByName(name);
-
-    if(stock != nullptr){
-        stock->getInfo();
-        return 0;
-    }
-    else{
-        std::cout << "No stock found. Please select an option:\n";
-        printSearchStockErrorMenu();
-        return menuInputAndCheck(1,2);
-    }
 }

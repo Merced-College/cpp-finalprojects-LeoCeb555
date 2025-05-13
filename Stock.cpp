@@ -1,7 +1,12 @@
 #include "Stock.h"
 #include "Investment.h"
+#include "textTools.h"
 #include <iostream>
 #include <string>
+
+using textTools::blueTextStart;
+using textTools::yellowTextStart;
+using textTools::coloredTextEnd;
 
 //Default constructor
 Stock::Stock() : Investment(), symbol("N/A"), volatility(0.0), potential(0.0) {}
@@ -43,10 +48,11 @@ void Stock::setPotential(const double potential){
 //Overrides
 void Stock::getInfo() const{
     Investment::getInfo();
-    std::cout << "Symbol: " << getSymbol() << std::endl;
-    std::cout << "Sector: " << getSector() << std::endl;
-    std::cout << "Volatility: " << getVolatility() << std::endl;
-    std::cout << "Potential: " << getPotential() << std::endl;
+    std::cout << blueTextStart << "Symbol: " << yellowTextStart << getSymbol() << std::endl;
+    std::cout << blueTextStart << "Sector: " << yellowTextStart<< getSector() << std::endl;
+    std::cout << blueTextStart << "Volatility: " << yellowTextStart << getVolatility() << std::endl;
+    std::cout << blueTextStart << "Potential: " << yellowTextStart << getPotential() << 
+    coloredTextEnd << "\n\n";
 }
 
 //New functions

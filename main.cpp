@@ -2,11 +2,10 @@
 #include "SimulationState.h"
 
 int main() {
-    User user;
     SimulationState state;
     
-    //state.setupSimulation(user);
-    state.runSimulation(user);
+    state.setupSimulation();
+    state.runSimulation();
 
     return 0;
 }

@@ -1,8 +1,10 @@
 #include "StockData.h"
+#include "textTools.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+
 
 const std::vector<Stock>& StockData::getStocks() const{
     return stocks;
@@ -57,36 +59,12 @@ const Stock* StockData::getStockBySymbol(const std::string& symbol) const{ //Fun
 
 const Stock* StockData::getStockByName(const std::string& name) const{
     for (const Stock& stock : getStocks()){
-        if (stock.getName() == name){
+        if ((textTools::makeLowercase(stock.getName())) == (textTools::makeLowercase(name))){
             return &stock;
         }
     }
     return nullptr;
 }
-
-
-/*FOR TESTING VECTOR OBJECTS
-void StockData::printLoadedVectorStocks() const {
-    for (const Stock& stock : stocks) {
-        std::cout << "Name: " << stock.getName() 
-                  << ", Symbol: " << stock.getSymbol()
-                  << ", Price: " << stock.getPrice()
-                  << ", Sector: " << stock.getSector()
-                  << ", Volatilty: " << stock.getVolatility()
-                  << ", Potential: " << stock.getPotential() << std::endl;
-    }
-}
-
-//FOR TESTING HASH TABLE POINTERS
-void StockData::printLoadedHashTableStocks() const {
-    for (const auto& pair : symbolTable) {
-        const std::string& symbol = pair.first;       // Key (stock symbol)
-        Stock* stock = pair.second;                   // Value (pointer to Stock)
-        
-        stock->getInfo();
-    }
-}
-*/
 
 void StockData::printStockInfo(const std::string symbol){
     symbolTable[symbol]->getInfo();

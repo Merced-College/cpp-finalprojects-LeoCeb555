@@ -3,14 +3,9 @@
 #include <string>
 #include <vector>
 #include "StockData.h"
+#include "User.h"
 
 namespace Menu{
-    // Constants for color formatting
-    const std::string blueTextStart = "\033[1;34m";
-    const std::string greenTextStart = "\033[1;32m";
-    const std::string redTextStart = "\033[1;31m";
-    const std::string yellowTextStart = "\033[1;33m";
-    const std::string coloredTextEnd = "\033[0m";
 
     class Menu{
         private:
@@ -24,27 +19,36 @@ namespace Menu{
             void printAllButtons();
         };
 
-    std::string makeLowercase(const std::string);
     void printCashMenu();
     void printGameModeMenu();
     void printMainMenu();
     void printInvestMenu();
+    void printPortfolioMenu(User user);
     void printSearchStockMenu();
     void printSearchStockErrorMenu();
     void printBuyStockMenu();
+    void printStockInventory(User user);
     
     int menuInputAndCheck(const int& min, const int& max);
-    void beginSetupPrompt();
+
+    void promptToBeginSetup();
     std::string promptForUserName();
     int promptForCashAmount();
     std::string promptForSimulationMode();
-    void endSetupPrompt();
+    void promptToEndSetup();
+    int promptToSearchStockBySymbol(const StockData& stocks);
+    int promptToSearchStockByName(const StockData& stocks);
+    const Stock* promptToGetBoughtStockUsingSymbol(const StockData& stocks);
+    const Stock* promptToGetBoughtStockUsingName(const StockData& stocks);
+    int promptToGetBoughtShares(int cash, const Stock* stock);
+    int promptToBuyStockByName(int cash, const StockData& stocks);
+
     int displayMainInterface();
     int displayInvestInterface();
+    int displayPortfolioInterface(User user);
     int displaySearchStockInterface();
+    int displaySearchStockErrorInterface();
     int displayBuyStockInterface();
-    int displayStockSearchBySymbol(const StockData& stocks);
-    int displayStockSearchByName(const StockData& stocks);
 
 };
 

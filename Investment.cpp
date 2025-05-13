@@ -1,6 +1,11 @@
 #include "Investment.h"
+#include "textTools.h"
 #include <iostream>
 #include <string>
+
+using textTools::blueTextStart;
+using textTools::yellowTextStart;
+using textTools::coloredTextEnd;
 
 //Default constructor
 Investment::Investment() : investmentName("Unnamed"), investmentPrice(0), investmentPopularity(0.0){}
@@ -33,7 +38,8 @@ void Investment::setPopularity(const double popularity){
 
 //Overrides
 void Investment::getInfo() const{
-    std::cout << "Name: " << getName() << "\n"
-        << "Price: $" << getPrice() << "\n"
-        << "Popularity: " << getPopularity() << std::endl;
+    std::cout << blueTextStart << "Name: " << yellowTextStart<< getName() << "\n"
+        << blueTextStart << "Price: " << yellowTextStart << "$" << getPrice() << "\n"
+        << blueTextStart << "Popularity: " << yellowTextStart << getPopularity()
+        << coloredTextEnd << std::endl;
 }
