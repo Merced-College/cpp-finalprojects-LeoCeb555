@@ -1,4 +1,7 @@
-// main.cpp
+// Leonardo Cebrero
+// CPSC-25
+// Final project: Virtual Stock Simulator
+
 #include "SimulationState.h"
 
 int main() {

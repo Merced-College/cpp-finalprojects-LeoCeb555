@@ -5,7 +5,8 @@
 #include <utility>
 #include <iostream>
 
-namespace tradingTools{
+//User establishes creation of User object and manipulation/retrieval of User information
+namespace tradingTools{ //User object not needed to call function
     int calculateStocksAbleToBuy(int cash, int price);
 }
 

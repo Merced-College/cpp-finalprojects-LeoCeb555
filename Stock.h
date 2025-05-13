@@ -5,6 +5,7 @@
 #include <iostream>
 
 //Derived class from base class Investment
+//Stock establishes Stock object creation and the manipulation/retrieval of Stock information
 class Stock : public Investment{
 private:
     std::string symbol; //Used for stock ticker symbol

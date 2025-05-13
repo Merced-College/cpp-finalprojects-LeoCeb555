@@ -2,6 +2,7 @@
 #define TEXT_TOOLS
 #include <string>
 
+//textTools is only used for text formatting and string manipulation
 namespace textTools{
     // Constants for color formatting
     const std::string blueTextStart = "\033[1;34m";

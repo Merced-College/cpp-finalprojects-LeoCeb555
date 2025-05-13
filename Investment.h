@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 
+//Base class
+//Investment establishes the creation of Investment objects and manipulation/retrieval of Investment information; (can add other types of investments in the future)
 class Investment{
 private:
     //Variable to store name of investment

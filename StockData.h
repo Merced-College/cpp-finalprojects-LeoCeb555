@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
+//StockData handles the parsing of Stock text file, creation of Stock objects, storing of Stocks, and searching of Stocks
 class StockData{
 private:
     std::vector <Stock> stocks; //Vector to store stocks
@@ -20,6 +21,6 @@ public:
     //void printLoadedVectorStocks() const; FOR TESTING
     //void printLoadedHashTableStocks() const; FOR TESTING
     void printStockInfo(const std::string symbol);
-    void modifyStockValuesBySector();
+    //void modifyStockValuesBySector();
 };
 #endif

@@ -5,15 +5,16 @@
 #include "StockData.h"
 #include "User.h"
 
+//Menu handles user input, input logic, and simulator output
 namespace Menu{
 
     class Menu{
         private:
-            std::vector<std::string> positions;
-            std::vector<std::string> actions;
+            std::vector<std::string> positions; //vector to track button positions
+            std::vector<std::string> actions; //vector to track button actions
         public:
-            const std::string getAction(int i) const;
-            const std::string getPosition(int i) const;
+            const std::string getAction(int i) const; //accessor for button action at i index
+            const std::string getPosition(int i) const; //accessor for button position at i index
             void addButton(std::string position, std::string action);
             void printButton(int i);
             void printAllButtons();

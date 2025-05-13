@@ -14,25 +14,25 @@ using textTools::yellowTextStart;
 using textTools::coloredTextEnd;
 
 
-const std::string Menu::Menu::getAction(int i) const{
+const std::string Menu::Menu::getAction(int i) const{ //returns button's action at i index
     return actions.at(i);
 }
 
-const std::string Menu::Menu::getPosition(int i) const{
+const std::string Menu::Menu::getPosition(int i) const{ //return's button's position at i index
     return positions.at(i);
 }
 
-void Menu::Menu::addButton(std::string position, std::string action){
+void Menu::Menu::addButton(std::string position, std::string action){ //function to add create new button, takes button action and position as input
     positions.push_back("[" + position + "] ");
     actions.push_back(action);
 }
 
 void Menu::Menu::printButton(int i){
-    std::cout << std::endl << blueTextStart << positions[i - 1] << actions[i - 1] << std::endl;
+    std::cout << std::endl << blueTextStart << positions[i - 1] << actions[i - 1] << std::endl; //prints button at i index
 }
 
 void Menu::Menu::printAllButtons(){
-    for (int i = 1; i <= positions.size(); ++i){
+    for (int i = 1; i <= positions.size(); ++i){ //iterates through action and position vectors and print each button
         printButton(i);
     }
     std::cout << coloredTextEnd << std::endl;
@@ -41,6 +41,7 @@ void Menu::Menu::printAllButtons(){
 
 //START OF NAMESPACE FUNCTIONS
 
+//Print menu functions create Menu object, prints its buttons, and also prints any additional text needed
 void Menu::printCashMenu(){
     Menu cashMenu;
     cashMenu.addButton("1", "$100");
@@ -92,6 +93,7 @@ void Menu::printInvestMenu(){
     investMenu.printAllButtons();
 }
 
+//User parameter needed to access user name, cash amount, and shares
 void Menu::printPortfolioMenu(User user){
     Menu portfolioMenu;
     portfolioMenu.addButton("1", "Go back");
@@ -135,35 +137,35 @@ void Menu::printBuyStockMenu(){
     buyStockMenu.printAllButtons();
 }
 
-void Menu::printStockInventory(User user){
-    if (user.getStockInventory().empty() == 1){
-        std::cout << redTextStart << "\nNo investments made\n" << coloredTextEnd;
+void Menu::printStockInventory(User user){ //Function print user's shares; shows share ticker symbol and amount in player's inventory
+    if (user.getStockInventory().empty() == 1){ //First checks if inventory is empty
+        std::cout << redTextStart << "\nNo investments made\n" << coloredTextEnd; //Let's user know inventory is empty
     }
-    for(std::pair<std::string, int> pair : user.getStockInventory()){
-        std::cout << greenTextStart << "\nStock symbol: " << yellowTextStart << pair.first 
-        << greenTextStart << "\nAmount of shares: " << yellowTextStart << pair.second << "\n";
+    for(std::pair<std::string, int> pair : user.getStockInventory()){ //Iterates through user inventory
+        std::cout << greenTextStart << "\nStock symbol: " << yellowTextStart << pair.first //Prints stock ticker symbol
+        << greenTextStart << "\nAmount of shares: " << yellowTextStart << pair.second << "\n"; //Prints amount of shares owned
     }
 }
 
 //CREATED BY CHATGPT:
-int Menu::menuInputAndCheck(const int& min, const int& max) {
+int Menu::menuInputAndCheck(const int& min, const int& max) { /*Function to check if input is a valid int input (button options)
+                                                                takes lowest (min) and highest (max) button positions as input*/
     std::string input;
     int choice;
 
-    while (true) {
-        std::getline(std::cin, input);
-        try {
-            choice = std::stoi(input);
-            if (choice >= min && choice <= max){
-                std::system("clear");
-                return choice;
+    while (true) { //Runs until valid choice is input
+        std::getline(std::cin, input); //Get user input
+        try { //Used to catch errors from string to int conversion or invalid number input
+            choice = std::stoi(input); //Converts string input to int
+            if (choice >= min && choice <= max){ //Checks if input falls in the range of button positions
+                std::system("clear"); //Clears terminal
+                return choice; //returns valid input
             }
 
-            std::cout << "\nPlease enter a " << redTextStart << "number" << coloredTextEnd << " between " << min << " and " << max << ": ";
-        } catch (const std::invalid_argument&) {
+            std::cout << "\nPlease enter a " << redTextStart << "number" << coloredTextEnd << " between " << min << " and " << max << ": "; /*returns error message if 
+                                                                                                                                    int is button option out of range*/
+        } catch (const std::invalid_argument&) { //when int is not input, system error is caught, prints error message
             std::cout << "\nThat is not a " << redTextStart << "number" << coloredTextEnd << ". Try again: ";
-        } catch (const std::out_of_range&) {
-            std::cout << "\nNumber out of " << redTextStart << "range" << coloredTextEnd << ". Try again: ";
         }
     }
 }
