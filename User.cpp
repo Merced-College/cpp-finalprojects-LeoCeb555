@@ -26,14 +26,34 @@ void User::setCashAmount(const int cash){
     cashAmount = cash;
 };
 
-void User::addStockShares(std::string name, int amount){
-    stockInventory.push_back({name, amount});
+void User::addStockShares(const Stock* stock, int amount){
+    stockInventory.push_back({stock, amount});
 }
 
-std::vector<std::pair<std::string, int>>  User::getStockInventory(){
+std::vector<std::pair<const Stock*, int>>  User::getStockInventory(){
     return stockInventory;
 }
 
-std::pair<std::string, int> User::getSpecificStockInInventory(int i){
-    return stockInventory.at(i);
+int User::getShareAmountInInventoryBySymbol(std::string symbol){
+    for (std::pair<const Stock*, int> pair : stockInventory){
+        if (pair.first->getSymbol() == symbol){
+            return pair.second;
+        }
+    }
+    return 0;
+}
+
+int User::getShareAmountInInventoryByName(std::string name){
+    for (std::pair<const Stock*, int> pair : stockInventory){
+        if (pair.first->getName() == name){
+            return pair.second;
+        }
+    }
+    return 0;
+}
+
+void User::removeStockShares(std::string symbol, int amount){
+    if (getShareAmountInInventoryBySymbol(symbol) != 0){
+        
+    }
 }

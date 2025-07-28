@@ -28,6 +28,7 @@ namespace Menu{
     void printSearchStockMenu();
     void printSearchStockErrorMenu();
     void printBuyStockMenu();
+    void printSellStockMenu();
     void printStockInventory(User user);
     
     int menuInputAndCheck(const int& min, const int& max);
@@ -39,9 +40,11 @@ namespace Menu{
     void promptToEndSetup();
     int promptToSearchStockBySymbol(const StockData& stocks);
     int promptToSearchStockByName(const StockData& stocks);
-    const Stock* promptToGetBoughtStockUsingSymbol(const StockData& stocks);
-    const Stock* promptToGetBoughtStockUsingName(const StockData& stocks);
+    const Stock* promptToGetStockUsingSymbol(const StockData& stocks);
+    const Stock* promptToGetStockUsingName(const StockData& stocks);
     int promptToGetBoughtShares(int cash, const Stock* stock);
+    int promptToGetSoldShares(int cash, int stockAmount, const Stock* stock);
+    int promptToSellShares(int cash, int maxStocks, const Stock* stock);
     int promptToBuyStockByName(int cash, const StockData& stocks);
 
     int displayMainInterface();
@@ -50,6 +53,7 @@ namespace Menu{
     int displaySearchStockInterface();
     int displaySearchStockErrorInterface();
     int displayBuyStockInterface();
+    int displaySellStockInterface();
 
 };
 

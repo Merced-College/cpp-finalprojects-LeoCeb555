@@ -84,8 +84,9 @@ void Menu::printInvestMenu(){
     Menu investMenu;
     investMenu.addButton("1", "Search for Stock");
     investMenu.addButton("2", "Buy a Stock");
-    investMenu.addButton("3", "View full rankings (UNDER CONSTRUCTION)");
-    investMenu.addButton("4", "Go back");
+    investMenu.addButton("3", "Sell a Stock");
+    investMenu.addButton("4", "View full rankings (UNDER CONSTRUCTION)");
+    investMenu.addButton("5", "Go back");
 
     std::cout << yellowTextStart << "TOP MOVERS TODAY: (UNDER CONSTRUCTION)\n\n" << redTextStart
     << yellowTextStart << "What would you like to do?\n";
@@ -137,12 +138,24 @@ void Menu::printBuyStockMenu(){
     buyStockMenu.printAllButtons();
 }
 
+void Menu::printSellStockMenu(){
+    Menu sellStockMenu;
+    sellStockMenu.addButton("1", "Sell Stock by Ticker Symbol");
+    sellStockMenu.addButton("2", "Sell Stock by Name");
+    sellStockMenu.addButton("3", "Go back");
+
+    std::cout << "Would you like to sell using a " << greenTextStart << "ticker symbol"
+        << coloredTextEnd << " or " << greenTextStart << "name" << coloredTextEnd << "?\n";
+
+    sellStockMenu.printAllButtons();
+}
+
 void Menu::printStockInventory(User user){ //Function print user's shares; shows share ticker symbol and amount in player's inventory
     if (user.getStockInventory().empty() == 1){ //First checks if inventory is empty
         std::cout << redTextStart << "\nNo investments made\n" << coloredTextEnd; //Let's user know inventory is empty
     }
-    for(std::pair<std::string, int> pair : user.getStockInventory()){ //Iterates through user inventory
-        std::cout << greenTextStart << "\nStock symbol: " << yellowTextStart << pair.first //Prints stock ticker symbol
+    for(std::pair<const Stock*, int> pair : user.getStockInventory()){ //Iterates through user inventory
+        std::cout << greenTextStart << "\nStock symbol: " << yellowTextStart << pair.first->getSymbol() //Prints stock ticker symbol
         << greenTextStart << "\nAmount of shares: " << yellowTextStart << pair.second << "\n"; //Prints amount of shares owned
     }
 }
@@ -288,7 +301,7 @@ int Menu::promptToSearchStockByName(const StockData& stocks){
     }
 }
 
-const Stock* Menu::promptToGetBoughtStockUsingSymbol(const StockData& stocks){
+const Stock* Menu::promptToGetStockUsingSymbol(const StockData& stocks){
 
     while (true){
         std::cout << "Please type in the stock's " << greenTextStart << "symbol" << coloredTextEnd << ":\n\n";
@@ -311,7 +324,7 @@ const Stock* Menu::promptToGetBoughtStockUsingSymbol(const StockData& stocks){
     }
 }
 
-const Stock* Menu::promptToGetBoughtStockUsingName(const StockData& stocks){
+const Stock* Menu::promptToGetStockUsingName(const StockData& stocks){
 
     while (true){
         std::cout << "Please type in the stock's " << greenTextStart << "name" << coloredTextEnd << ":\n\n";
@@ -341,6 +354,33 @@ int Menu::promptToGetBoughtShares(int cash, const Stock* stock){
         blueTextStart << "\nShare price: " << yellowTextStart << "$" << stock->getPrice();
     int maxStocks = tradingTools::calculateStocksAbleToBuy(cash, stock->getPrice());
     
+    std::cout << redTextStart << "\n\nYou can buy a total of: " << maxStocks << " share(s)\n\n"
+        << coloredTextEnd << "How many shares would you like to buy? " <<
+        redTextStart << "('0' to cancel)\n\n" << coloredTextEnd;
+    
+    return menuInputAndCheck(0, maxStocks);
+}
+
+int Menu::promptToGetSoldShares(int cash, int stockAmount, const Stock* stock){
+    std::cout << greenTextStart << "CURRENTLY SELLING: " << yellowTextStart << stock->getSymbol();
+
+     std::cout << blueTextStart << "\n\nUser cash: " << yellowTextStart << "$" << cash << 
+        blueTextStart << "\nShare price: " << yellowTextStart << "$" << stock->getPrice();
+   
+    std::cout << redTextStart << "\n\nYou can sell a total of: " << stockAmount << " share(s)\n\n"
+        << coloredTextEnd << "How many shares would you like to sell? " <<
+        redTextStart << "('0' to cancel)\n\n" << coloredTextEnd;
+    
+    return menuInputAndCheck(0, stockAmount);
+}
+
+//CURRENTLY WORKING ON It
+int Menu::promptToSellShares(int cash, int maxStocks, const Stock* stock){
+    std::cout << greenTextStart << "CURRENTLY SELLLING: " << yellowTextStart << stock->getSymbol();
+
+     std::cout << blueTextStart << "\n\nUser cash: " << yellowTextStart << "$" << cash << 
+        blueTextStart << "\nShare price: " << yellowTextStart << "$" << stock->getPrice();
+    
     std::cout << redTextStart << "\n\nYou can buy a total of: " << maxStocks << " shares\n\n"
         << coloredTextEnd << "How many shares would you like to buy? " <<
         redTextStart << "('0' to cancel)\n\n" << coloredTextEnd;
@@ -358,7 +398,7 @@ int Menu::displayMainInterface(){
 int Menu::displayInvestInterface(){
     printInvestMenu();
 
-    return menuInputAndCheck(1,4);
+    return menuInputAndCheck(1,5);
 }
 
 int Menu::displayPortfolioInterface(User user){
@@ -381,6 +421,12 @@ int Menu::displaySearchStockErrorInterface(){
 
 int Menu::displayBuyStockInterface(){
     printBuyStockMenu();
+
+    return menuInputAndCheck(1, 3);
+}
+
+int Menu::displaySellStockInterface(){
+    printSellStockMenu();
 
     return menuInputAndCheck(1, 3);
 }
