@@ -9,13 +9,13 @@ using textTools::yellowTextStart;
 using textTools::coloredTextEnd;
 
 //Default constructor
-Stock::Stock() : Investment(), symbol("N/A"), volatility(0.0), potential(0.0) {}
+Stock::Stock() : Investment(), symbol("N/A"), volatility(0.0), potential(0.0), volume(0) {}
 
 //Parameterized constructor
 Stock::Stock(const std::string& name, int price, double popularity, const std::string& symbol,
-    const std::string& sector, const double volatility, const double potential) 
+    const std::string& sector, const double volatility, const double potential, const int volume) 
     : Investment(name, price, popularity), symbol(symbol), sector(sector), volatility(volatility),
-    potential(potential) {}
+    potential(potential), volume(volume) {}
 
 //Accessors
 std::string Stock::getSymbol() const{
@@ -29,6 +29,9 @@ double Stock::getVolatility() const{
 }
 double Stock::getPotential() const{
     return potential;
+}
+int Stock::getVolume() const{
+    return volume;
 }
 
 //Mutators
@@ -44,6 +47,9 @@ void Stock::setVolatility(const double volatility){
 void Stock::setPotential(const double potential){
     this->potential = potential;
 }
+void Stock::setVolume(const int volume){
+    this->volume = volume;
+}
 
 //Overrides
 void Stock::getInfo() const{
@@ -51,7 +57,8 @@ void Stock::getInfo() const{
     std::cout << blueTextStart << "Symbol: " << yellowTextStart << getSymbol() << std::endl;
     std::cout << blueTextStart << "Sector: " << yellowTextStart<< getSector() << std::endl;
     std::cout << blueTextStart << "Volatility: " << yellowTextStart << getVolatility() << std::endl;
-    std::cout << blueTextStart << "Potential: " << yellowTextStart << getPotential() << 
+    std::cout << blueTextStart << "Potential: " << yellowTextStart << getPotential() << std::endl;
+    std::cout << blueTextStart << "Volume: " << yellowTextStart << std::fixed << getVolume() <<
     coloredTextEnd << "\n\n";
 }
 

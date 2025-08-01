@@ -13,6 +13,7 @@ private:
                         Tech, Finance, Healthcare, Consumer, Energy, Industrials, Utilities*/
     double volatility; //Used to determine chances of change
     double potential; //Used to determine what type of change occurs
+    int volume; //Used to determine how many shares are being traded which helps determine future outlook
 
 public:
     //Default constructor
@@ -20,19 +21,21 @@ public:
 
     //Parameterized constructor
     Stock(const std::string& name, const int price, const double popularity, const std::string& symbol,
-        const std::string& sector, const double volatility, const double potential);
+        const std::string& sector, const double volatility, const double potential, const int volume);
 
     //Accessors
     std::string getSymbol() const;
     std::string getSector() const;
     double getVolatility() const;
     double getPotential() const;
+    int getVolume() const;
 
     //Mutators
     void setSymbol(const std::string& symbol);
     void setSector(const std::string& sector);
     void setVolatility(const double volatility);
     void setPotential(const double potential);
+    void setVolume(const int volume);
 
     //Overrides
     void getInfo() const override;

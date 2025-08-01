@@ -25,7 +25,7 @@ bool StockData::loadFromFile(const std::string& filename){
     while (getline(file, line)){
         std::istringstream stream(line); //Converts string line to stream
         std::string name, symbol, sector;
-        int price;
+        int price, volume;
         double popularity, volatility, potential;
         char comma; //For commas
 
@@ -33,10 +33,10 @@ bool StockData::loadFromFile(const std::string& filename){
         //ensures Stock object is only created if all conditions are valid
         if (std::getline(stream, name, ',')  &&(stream >> price >> comma) && (stream >> popularity >> comma) &&
         std::getline(stream, symbol, ',') && std::getline(stream, sector, ',') &&
-        (stream >> volatility >> comma >> potential)){
+        (stream >> volatility >> comma >> potential >> comma) &&(stream >> volume)){
 
             //emplace_back function constructs Stock based on variables and places it in vector
-            stocks.emplace_back(name, price, popularity, symbol, sector, volatility, potential);
+            stocks.emplace_back(name, price, popularity, symbol, sector, volatility, potential, volume);
 
         } else {
             //If 'if' raises flag, prints error message and bad line using cerr
