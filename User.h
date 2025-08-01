@@ -15,7 +15,7 @@ class User{
 private:
     std::string userName;
     int cashAmount;
-    std::vector<std::pair<const Stock*, int>> stockInventory; //vector of pairs, pairs hold ticker symbol and share amount
+    std::vector<std::pair<const Stock*, int>> stockInventory; //vector of pairs, pairs hold stock pointer and share amount
 public:
     User(); //default constructor
     User(const std::string name, const int cash); //paramterized constructor, allows for editing of name and cash

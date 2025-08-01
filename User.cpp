@@ -27,6 +27,12 @@ void User::setCashAmount(const int cash){
 };
 
 void User::addStockShares(const Stock* stock, int amount){
+    for (auto& pair : stockInventory) {
+        if (pair.first->getSymbol() == stock->getSymbol()) {
+            pair.second += amount;
+            return;
+        }
+    }
     stockInventory.push_back({stock, amount});
 }
 
@@ -53,7 +59,16 @@ int User::getShareAmountInInventoryByName(std::string name){
 }
 
 void User::removeStockShares(std::string symbol, int amount){
-    if (getShareAmountInInventoryBySymbol(symbol) != 0){
-        
+    for (auto pair = stockInventory.begin(); pair != stockInventory.end(); pair++){
+        if (pair->first->getSymbol() == symbol){
+            setCashAmount(getCashAmount() + (pair->first->getPrice() * amount));
+            if (pair->second == amount){
+                stockInventory.erase(pair);
+            }
+            else{
+                pair->second = pair->second - amount;
+            }
+            return;
+        }
     }
 }

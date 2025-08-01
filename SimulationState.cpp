@@ -153,9 +153,7 @@ void SimulationState::runSimulation(){
                         user.getShareAmountInInventoryBySymbol(stock->getSymbol()),
                         stock);
                         if (amount != 0){
-                            user.addStockShares(stock, amount);
-                            user.setCashAmount(user.getCashAmount() + (stock->getPrice() * amount));
-                            //std::cout << "User cash: " << user.getCashAmount();
+                            user.removeStockShares(stock->getSymbol(), amount);
                         }
                     }
                     break;
@@ -163,11 +161,9 @@ void SimulationState::runSimulation(){
                     stock = Menu::promptToGetStockUsingName(stocks);
                     if(stock != nullptr){
                         amount = Menu::promptToGetSoldShares(user.getCashAmount(),
-                        user.getShareAmountInInventoryBySymbol(stock->getSymbol()),
-                        stock);
+                        user.getShareAmountInInventoryBySymbol(stock->getSymbol()), stock);
                         if (amount != 0){
                             user.removeStockShares(stock->getSymbol(), amount);
-                            user.setCashAmount(user.getCashAmount() + (stock->getPrice() * amount));
                             //std::cout << "User cash: " << user.getCashAmount();
                         }
                     }

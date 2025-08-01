@@ -367,7 +367,7 @@ int Menu::promptToGetSoldShares(int cash, int stockAmount, const Stock* stock){
      std::cout << blueTextStart << "\n\nUser cash: " << yellowTextStart << "$" << cash << 
         blueTextStart << "\nShare price: " << yellowTextStart << "$" << stock->getPrice();
    
-    std::cout << redTextStart << "\n\nYou can sell a total of: " << stockAmount << " share(s)\n\n"
+    std::cout << redTextStart << "\n\nYou have " << stockAmount << " share(s) of this stock\n\n"
         << coloredTextEnd << "How many shares would you like to sell? " <<
         redTextStart << "('0' to cancel)\n\n" << coloredTextEnd;
     
