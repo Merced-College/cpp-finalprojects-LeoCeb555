@@ -1,19 +1,20 @@
 #ifndef STOCKRANKINGS_H
 #define STOCKRANKINGS_H
-#include "StockData.h"
+#include "Stock.h"
+#include <vector>
 
 class StockRankings{
 private:
-    StockData* baseStocks;
+    std::vector<Stock> stocks;
     std::vector<Stock*> topMovers;
     std::vector<Stock*> mostPopular;
     std::vector<Stock*> stocksToWatch;
 public:
-    StockRankings(StockData* stocks);
-    void updateRankings();
-    std::vector<Stock*> getTopMovers();
-    std::vector<Stock*> getMostPopular();
-    std::vector<Stock*> getStocksToWatch();
+    StockRankings();
+    StockRankings(std::vector<Stock> stocks);
+    std::vector<Stock*> getTopMovers() const;
+    std::vector<Stock*> getMostPopular() const;
+    std::vector<Stock*> getStocksToWatch() const;
 };
 
 #endif
