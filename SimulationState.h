@@ -1,9 +1,7 @@
 #define SIMULATIONSTATE_H
 #ifdef SIMULATIONSTATE_H
 #include <string>
-#include "User.h"
 #include "Menu.h"
-#include "StockData.h"
 
 //SimulationState is a state machine that runs the main simulation loop and controls Menu transition logic; ties other classes together
 class SimulationState{

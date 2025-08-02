@@ -66,8 +66,8 @@ void SimulationState::runSimulation(){
                     inSellInterface = true;
                     break;
                 case 4: //button 4 is selected (view full rankings)
-                    //inInvestInterface = false; //sets bool flags to false since user
-                    //inRankingsInterface = true;
+                    inInvestInterface = false; //sets bool flags to false since user
+                    inRankingsInterface = true;
                     break;
                 case 5: //button 5 is selected (go back)
                     inInvestInterface = false; //sets bool flag to false since user is no longer in invest menu
@@ -170,6 +170,23 @@ void SimulationState::runSimulation(){
                     break;
                 case 3:
                     inSellInterface = false;
+                    inInvestInterface = true;
+                    break;
+            }
+        }
+        else if (inRankingsInterface){
+            switch(Menu::displayViewRankingsInterface()){
+                case 1: //view top movers
+                    Menu::printTopMoversMenu(stocks);
+                    break;
+                case 2: //view most popular
+                    Menu::printMostPopularMenu(stocks);
+                    break;
+                case 3: //view stocks to watch
+                    Menu::printStocksToWatchMenu(stocks);
+                    break;
+                case 4:
+                    inRankingsInterface = false;
                     inInvestInterface = true;
                     break;
             }

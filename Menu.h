@@ -4,6 +4,7 @@
 #include <vector>
 #include "StockData.h"
 #include "User.h"
+#include "StockLogic.h"
 
 //Menu handles user input, input logic, and simulator output
 namespace Menu{
@@ -30,6 +31,10 @@ namespace Menu{
     void printBuyStockMenu();
     void printSellStockMenu();
     void printStockInventory(User user);
+    void printViewRankingsMenu();
+    const void printTopMoversMenu(const StockData data);
+    const void printMostPopularMenu(const StockData data);
+    const void printStocksToWatchMenu(const StockData data);
     
     int menuInputAndCheck(const int& min, const int& max);
 
@@ -54,6 +59,7 @@ namespace Menu{
     int displaySearchStockErrorInterface();
     int displayBuyStockInterface();
     int displaySellStockInterface();
+    int displayViewRankingsInterface();
 
 };
 

@@ -15,6 +15,7 @@
                 "SimulationState.cpp",
                 "User.cpp",
                 "textTools.cpp",
+                "StockLogic.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

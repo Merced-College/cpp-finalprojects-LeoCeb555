@@ -85,7 +85,7 @@ void Menu::printInvestMenu(){
     investMenu.addButton("1", "Search for Stock");
     investMenu.addButton("2", "Buy a Stock");
     investMenu.addButton("3", "Sell a Stock");
-    investMenu.addButton("4", "View full rankings (UNDER CONSTRUCTION)");
+    investMenu.addButton("4", "View full rankings");
     investMenu.addButton("5", "Go back");
 
     std::cout << yellowTextStart << "TOP MOVERS TODAY: (UNDER CONSTRUCTION)\n\n" << redTextStart
@@ -158,6 +158,81 @@ void Menu::printStockInventory(User user){ //Function print user's shares; shows
         std::cout << greenTextStart << "\nStock symbol: " << yellowTextStart << pair.first->getSymbol() //Prints stock ticker symbol
         << greenTextStart << "\nAmount of shares: " << yellowTextStart << pair.second << "\n"; //Prints amount of shares owned
     }
+}
+
+void Menu::printViewRankingsMenu(){
+    Menu viewRankingsMenu;
+    viewRankingsMenu.addButton("1", "View top movers");
+    viewRankingsMenu.addButton("2", "View most popular");
+    viewRankingsMenu.addButton("3", "View stocks to watch");
+    viewRankingsMenu.addButton("4", "Go back");
+
+    std::cout << yellowTextStart << "What would you like to do?\n" << coloredTextEnd;
+
+    viewRankingsMenu.printAllButtons();
+}
+
+const void Menu::printTopMoversMenu(const StockData data){
+
+    std::vector<Stock> rankedStocks = StockLogic::rankTopMovers(data);
+    int stocksPrinted = 0;
+    int stockRank = 1;
+    int previousVolume = 0;
+
+    for(int i = 0; (i < rankedStocks.size()) && stocksPrinted < 10; ++i){
+        const Stock& stock = rankedStocks[i];
+
+        if (stock.getVolume() != previousVolume){
+            stockRank = stocksPrinted + 1;
+            ++stocksPrinted;
+            previousVolume = stock.getVolume();
+        }
+        std::cout << yellowTextStart << stockRank << ". " << stock.getName() 
+        << " - " << stock.getVolume() << " shares" << std::endl;
+    }
+    std::cout << coloredTextEnd << std::endl;
+}
+
+const void Menu::printMostPopularMenu(const StockData data){
+
+    std::vector<Stock> rankedStocks = StockLogic::rankMostPopular(data);
+    int stocksPrinted = 0;
+    int stockRank = 1;
+    double previousPopularity = 0.0;
+
+    for(int i = 0; (i < rankedStocks.size()) && stocksPrinted < 10; ++i){
+        const Stock& stock = rankedStocks[i];
+
+        if (stock.getPopularity() != previousPopularity){
+            stockRank = stocksPrinted + 1;
+            ++stocksPrinted;
+            previousPopularity = stock.getPopularity();
+        }
+        std::cout << yellowTextStart << stockRank << ". " << stock.getName() 
+        << " - Stock popularity rating: " << stock.getPopularity() << std::endl;
+    }
+    std::cout << coloredTextEnd << std::endl;
+}
+
+const void Menu::printStocksToWatchMenu(const StockData data){
+
+    std::vector<Stock> rankedStocks = StockLogic::rankStocksToWatch(data);
+    int stocksPrinted = 0;
+    int stockRank = 1;
+    double previousPotential = 0.0;
+
+    for(int i = 0; (i < rankedStocks.size()) && stocksPrinted < 10; ++i){
+        const Stock& stock = rankedStocks[i];
+
+        if (stock.getPotential() != previousPotential){
+            stockRank = stocksPrinted + 1;
+            ++stocksPrinted;
+            previousPotential = stock.getPotential();
+        }
+        std::cout << yellowTextStart << stockRank << ". " << stock.getName() 
+        << " - Stock potential rating: " << stock.getPotential() << std::endl;
+    }
+    std::cout << coloredTextEnd << std::endl;
 }
 
 //CREATED BY CHATGPT:
@@ -430,3 +505,11 @@ int Menu::displaySellStockInterface(){
 
     return menuInputAndCheck(1, 3);
 }
+
+int Menu::displayViewRankingsInterface(){
+    printViewRankingsMenu();
+
+    return menuInputAndCheck(1,4);
+}
+
+//int Menu::displayTopMovers
