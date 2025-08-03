@@ -10,8 +10,8 @@ private:
     User user;
     StockData stocks;
 public:
-    std::string getSimulationMode() const;
-    void setSimulationMode(const std::string mode);
+    const std::string& getSimulationMode() const;
+    void setSimulationMode(const std::string& mode);
     void setupSimulation();
     void runSimulation();
 };

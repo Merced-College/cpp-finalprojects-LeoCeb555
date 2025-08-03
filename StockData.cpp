@@ -5,11 +5,17 @@
 #include <sstream>
 #include <algorithm>
 
-
+//Accessors
 const std::vector<Stock>& StockData::getStocks() const{
     return stocks;
 }
 
+//Mutators
+void StockData::setStocks(const std::vector<Stock>& stocks){
+    this->stocks = stocks;
+}
+
+//Class functions
 bool StockData::loadFromFile(const std::string& filename){
     std::ifstream file(filename); //Open file
 
@@ -66,15 +72,6 @@ const Stock* StockData::getStockByName(const std::string& name) const{
     return nullptr;
 }
 
-void StockData::printStockInfo(const std::string symbol){
+void StockData::printStockInfo(const std::string& symbol){
     symbolTable[symbol]->getInfo();
 }
-
-/*void StockData::modifyStockValuesBySector(){
-    for (Stock stock : stocks){
-        if (stock.getSector() == "TECH"){
-            
-        }
-    }
-}
-*/

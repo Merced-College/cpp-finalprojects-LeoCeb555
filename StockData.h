@@ -14,10 +14,14 @@ private:
 public:
     //Accessor
     const std::vector<Stock>& getStocks() const;
-    //Functions
+
+    //Mutator
+    void setStocks(const std::vector<Stock>& stocks);
+
+    //Class functions
     bool loadFromFile(const std::string& filename); //To open file and parse stocks into vector
     const Stock* getStockBySymbol(const std::string& symbol) const; //For efficient searching of stocks by symbol
     const Stock* getStockByName(const std::string& name) const;
-    void printStockInfo(const std::string symbol);
+    void printStockInfo(const std::string& symbol);
 };
 #endif

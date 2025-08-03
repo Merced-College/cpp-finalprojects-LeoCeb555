@@ -14,29 +14,29 @@ namespace Menu{
             std::vector<std::string> positions; //vector to track button positions
             std::vector<std::string> actions; //vector to track button actions
         public:
-            const std::string getAction(int i) const; //accessor for button action at i index
-            const std::string getPosition(int i) const; //accessor for button position at i index
-            void addButton(std::string position, std::string action);
-            void printButton(int i);
-            void printAllButtons();
+            const std::string& getAction(int i) const; //accessor for button action at i index
+            const std::string& getPosition(int i) const; //accessor for button position at i index
+            void addButton(const std::string& position, const std::string& action);
+            void printButton(int i) const;
+            void printAllButtons() const;
         };
 
     void printCashMenu();
     void printGameModeMenu();
     void printMainMenu();
     void printInvestMenu();
-    void printPortfolioMenu(User user);
+    void printPortfolioMenu(const User& user);
     void printSearchStockMenu();
     void printSearchStockErrorMenu();
     void printBuyStockMenu();
     void printSellStockMenu();
-    void printStockInventory(User user);
+    void printStockInventory(const User& user);
     void printViewRankingsMenu();
-    const void printTopMoversMenu(const StockData data);
-    const void printMostPopularMenu(const StockData data);
-    const void printStocksToWatchMenu(const StockData data);
+    void printTopMoversMenu(const StockData& data);
+    void printMostPopularMenu(const StockData& data);
+    void printStocksToWatchMenu(const StockData& data);
     
-    int menuInputAndCheck(const int& min, const int& max);
+    int menuInputAndCheck(const int min, const int max);
 
     void promptToBeginSetup();
     std::string promptForUserName();
@@ -47,14 +47,14 @@ namespace Menu{
     int promptToSearchStockByName(const StockData& stocks);
     const Stock* promptToGetStockUsingSymbol(const StockData& stocks);
     const Stock* promptToGetStockUsingName(const StockData& stocks);
-    int promptToGetBoughtShares(int cash, const Stock* stock);
-    int promptToGetSoldShares(int cash, int stockAmount, const Stock* stock);
-    int promptToSellShares(int cash, int maxStocks, const Stock* stock);
+    int promptToGetBoughtShares(int cash, const Stock*& stock);
+    int promptToGetSoldShares(int cash, int stockAmount, const Stock*& stock);
+    int promptToSellShares(int cash, int maxStocks, const Stock*& stock);
     int promptToBuyStockByName(int cash, const StockData& stocks);
 
     int displayMainInterface();
     int displayInvestInterface();
-    int displayPortfolioInterface(User user);
+    int displayPortfolioInterface(const User& user);
     int displaySearchStockInterface();
     int displaySearchStockErrorInterface();
     int displayBuyStockInterface();

@@ -11,7 +11,7 @@ namespace textTools{
     const std::string yellowTextStart = "\033[1;33m";
     const std::string coloredTextEnd = "\033[0m";
 
-    std::string makeLowercase(const std::string);
+    std::string makeLowercase(const std::string& word);
 };
 
 #endif

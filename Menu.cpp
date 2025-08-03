@@ -14,24 +14,24 @@ using textTools::yellowTextStart;
 using textTools::coloredTextEnd;
 
 
-const std::string Menu::Menu::getAction(int i) const{ //returns button's action at i index
+const std::string& Menu::Menu::getAction(int i) const{ //returns button's action at i index
     return actions.at(i);
 }
 
-const std::string Menu::Menu::getPosition(int i) const{ //return's button's position at i index
+const std::string& Menu::Menu::getPosition(int i) const{ //return's button's position at i index
     return positions.at(i);
 }
 
-void Menu::Menu::addButton(std::string position, std::string action){ //function to add create new button, takes button action and position as input
+void Menu::Menu::addButton(const std::string& position, const std::string& action){ //function to add create new button, takes button action and position as input
     positions.push_back("[" + position + "] ");
     actions.push_back(action);
 }
 
-void Menu::Menu::printButton(int i){
+void Menu::Menu::printButton(int i) const{
     std::cout << std::endl << blueTextStart << positions[i - 1] << actions[i - 1] << std::endl; //prints button at i index
 }
 
-void Menu::Menu::printAllButtons(){
+void Menu::Menu::printAllButtons() const{
     for (int i = 1; i <= positions.size(); ++i){ //iterates through action and position vectors and print each button
         printButton(i);
     }
@@ -95,7 +95,7 @@ void Menu::printInvestMenu(){
 }
 
 //User parameter needed to access user name, cash amount, and shares
-void Menu::printPortfolioMenu(User user){
+void Menu::printPortfolioMenu(const User& user){
     Menu portfolioMenu;
     portfolioMenu.addButton("1", "Go back");
 
@@ -150,7 +150,7 @@ void Menu::printSellStockMenu(){
     sellStockMenu.printAllButtons();
 }
 
-void Menu::printStockInventory(User user){ //Function print user's shares; shows share ticker symbol and amount in player's inventory
+void Menu::printStockInventory(const User& user){ //Function print user's shares; shows share ticker symbol and amount in player's inventory
     if (user.getStockInventory().empty() == 1){ //First checks if inventory is empty
         std::cout << redTextStart << "\nNo investments made\n" << coloredTextEnd; //Let's user know inventory is empty
     }
@@ -172,7 +172,7 @@ void Menu::printViewRankingsMenu(){
     viewRankingsMenu.printAllButtons();
 }
 
-const void Menu::printTopMoversMenu(const StockData data){
+void Menu::printTopMoversMenu(const StockData& data){
 
     std::vector<Stock> rankedStocks = StockLogic::rankTopMovers(data);
     int stocksPrinted = 0;
@@ -193,7 +193,7 @@ const void Menu::printTopMoversMenu(const StockData data){
     std::cout << coloredTextEnd << std::endl;
 }
 
-const void Menu::printMostPopularMenu(const StockData data){
+void Menu::printMostPopularMenu(const StockData& data){
 
     std::vector<Stock> rankedStocks = StockLogic::rankMostPopular(data);
     int stocksPrinted = 0;
@@ -214,7 +214,7 @@ const void Menu::printMostPopularMenu(const StockData data){
     std::cout << coloredTextEnd << std::endl;
 }
 
-const void Menu::printStocksToWatchMenu(const StockData data){
+void Menu::printStocksToWatchMenu(const StockData& data){
 
     std::vector<Stock> rankedStocks = StockLogic::rankStocksToWatch(data);
     int stocksPrinted = 0;
@@ -236,7 +236,7 @@ const void Menu::printStocksToWatchMenu(const StockData data){
 }
 
 //CREATED BY CHATGPT:
-int Menu::menuInputAndCheck(const int& min, const int& max) { /*Function to check if input is a valid int input (button options)
+int Menu::menuInputAndCheck(const int min, const int max) { /*Function to check if input is a valid int input (button options)
                                                                 takes lowest (min) and highest (max) button positions as input*/
     std::string input;
     int choice;
@@ -422,7 +422,7 @@ const Stock* Menu::promptToGetStockUsingName(const StockData& stocks){
     }
 }
 
-int Menu::promptToGetBoughtShares(int cash, const Stock* stock){
+int Menu::promptToGetBoughtShares(int cash, const Stock*& stock){
     std::cout << greenTextStart << "CURRENTLY BUYING: " << yellowTextStart << stock->getSymbol();
 
      std::cout << blueTextStart << "\n\nUser cash: " << yellowTextStart << "$" << cash << 
@@ -436,7 +436,7 @@ int Menu::promptToGetBoughtShares(int cash, const Stock* stock){
     return menuInputAndCheck(0, maxStocks);
 }
 
-int Menu::promptToGetSoldShares(int cash, int stockAmount, const Stock* stock){
+int Menu::promptToGetSoldShares(int cash, int stockAmount, const Stock*& stock){
     std::cout << greenTextStart << "CURRENTLY SELLING: " << yellowTextStart << stock->getSymbol();
 
      std::cout << blueTextStart << "\n\nUser cash: " << yellowTextStart << "$" << cash << 
@@ -450,7 +450,7 @@ int Menu::promptToGetSoldShares(int cash, int stockAmount, const Stock* stock){
 }
 
 //CURRENTLY WORKING ON It
-int Menu::promptToSellShares(int cash, int maxStocks, const Stock* stock){
+int Menu::promptToSellShares(int cash, int maxStocks, const Stock*& stock){
     std::cout << greenTextStart << "CURRENTLY SELLLING: " << yellowTextStart << stock->getSymbol();
 
      std::cout << blueTextStart << "\n\nUser cash: " << yellowTextStart << "$" << cash << 
@@ -476,7 +476,7 @@ int Menu::displayInvestInterface(){
     return menuInputAndCheck(1,5);
 }
 
-int Menu::displayPortfolioInterface(User user){
+int Menu::displayPortfolioInterface(const User& user){
     printPortfolioMenu(user);
 
     return menuInputAndCheck(1,1);

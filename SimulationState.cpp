@@ -1,11 +1,11 @@
 #include "SimulationState.h"
 #include <iostream>
 
-std::string SimulationState::getSimulationMode() const{
+const std::string& SimulationState::getSimulationMode() const{
     return simulationMode;
 };
 
-void SimulationState::setSimulationMode(const std::string mode){
+void SimulationState::setSimulationMode(const std::string& mode){
     simulationMode = mode;
 };
 
