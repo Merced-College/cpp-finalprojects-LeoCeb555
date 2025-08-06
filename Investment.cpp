@@ -37,7 +37,7 @@ void Investment::setPopularity(const double popularity){
 }
 
 //Overrides
-void Investment::getInfo() const{
+void Investment::printInfo() const{
     std::cout << blueTextStart << "Name: " << yellowTextStart<< getName() << "\n"
         << blueTextStart << "Price: " << yellowTextStart << "$" << getPrice() << "\n"
         << blueTextStart << "Popularity: " << yellowTextStart << getPopularity()

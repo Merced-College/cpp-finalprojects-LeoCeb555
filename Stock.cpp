@@ -14,7 +14,8 @@ StockHistory::StockHistory() : name("N/A"), price(0), popularity(0.0), symbol("N
 //Struct paramterized constructor
 StockHistory::StockHistory(const std::string& name, const int price, const double popularity, const std::string& symbol,
     const std::string& sector, const double volatility, const double potential, const int volume) : name(name), 
-    price(price), popularity(popularity), symbol(symbol), volatility(volatility), potential(potential), volume(volume) {}
+    price(price), popularity(popularity), symbol(symbol), sector(sector), volatility(volatility), potential(potential),
+    volume(volume) {}
 
 //Struct accessors
 const std::string& StockHistory::getHistoricalName() const{
@@ -67,6 +68,18 @@ void StockHistory::setHistoricalPotential(const double potential){
 void StockHistory::setHistoricalVolume(const int volume){
     this->volume = volume;
 }
+void StockHistory::printSpecificHistory() const{
+
+    std::cout << blueTextStart << "Name: " << yellowTextStart << getHistoricalName() << std::endl;
+    std::cout << blueTextStart << "Price: " << yellowTextStart<< getHistoricalPrice() << std::endl;
+    std::cout << blueTextStart << "Popularity: " << yellowTextStart << getHistoricalPopularity() << std::endl;
+    std::cout << blueTextStart << "Symbol: " << yellowTextStart << getHistoricalSymbol() << std::endl;
+    std::cout << blueTextStart << "Sector: " << yellowTextStart<< getHistoricalSector() << std::endl;
+    std::cout << blueTextStart << "Volatility: " << yellowTextStart << getHistoricalVolatility() << std::endl;
+    std::cout << blueTextStart << "Potential: " << yellowTextStart << getHistoricalPotential() << std::endl;
+    std::cout << blueTextStart << "Volume: " << yellowTextStart << std::fixed << getHistoricalVolume() <<
+    coloredTextEnd << "\n\n";
+}
 
 //Class default constructor
 Stock::Stock() : Investment(), symbol("N/A"), volatility(0.0), potential(0.0), volume(0) {}
@@ -117,9 +130,14 @@ void Stock::setHistory(const std::vector<StockHistory>& history){
     this->history = history;
 }
 
+//Other functions
+void Stock::addHistoryRecord(const StockHistory& record) {
+    history.push_back(record);
+}
+
 //Overrides
-void Stock::getInfo() const{
-    Investment::getInfo();
+void Stock::printInfo() const{
+    Investment::printInfo();
     std::cout << blueTextStart << "Symbol: " << yellowTextStart << getSymbol() << std::endl;
     std::cout << blueTextStart << "Sector: " << yellowTextStart<< getSector() << std::endl;
     std::cout << blueTextStart << "Volatility: " << yellowTextStart << getVolatility() << std::endl;

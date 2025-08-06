@@ -102,7 +102,7 @@ void Menu::printPortfolioMenu(const User& user){
     std::cout << redTextStart << "User: " << yellowTextStart << user.getUserName() 
     << redTextStart << "\nCash Amount: " << yellowTextStart << "$" << user.getCashAmount() << "\n";
 
-    printStockInventory(user);
+    printUserInventory(user);
     portfolioMenu.printAllButtons();
 }
 
@@ -150,11 +150,11 @@ void Menu::printSellStockMenu(){
     sellStockMenu.printAllButtons();
 }
 
-void Menu::printStockInventory(const User& user){ //Function print user's shares; shows share ticker symbol and amount in player's inventory
-    if (user.getStockInventory().empty() == 1){ //First checks if inventory is empty
+void Menu::printUserInventory(const User& user){ //Function print user's shares; shows share ticker symbol and amount in player's inventory
+    if (user.getUserInventory().empty() == 1){ //First checks if inventory is empty
         std::cout << redTextStart << "\nNo investments made\n" << coloredTextEnd; //Let's user know inventory is empty
     }
-    for(std::pair<const Stock*, int> pair : user.getStockInventory()){ //Iterates through user inventory
+    for(std::pair<const Stock*, int> pair : user.getUserInventory()){ //Iterates through user inventory
         std::cout << greenTextStart << "\nStock symbol: " << yellowTextStart << pair.first->getSymbol() //Prints stock ticker symbol
         << greenTextStart << "\nAmount of shares: " << yellowTextStart << pair.second << "\n"; //Prints amount of shares owned
     }
@@ -235,6 +235,40 @@ void Menu::printStocksToWatchMenu(const StockData& data){
     std::cout << coloredTextEnd << std::endl;
 }
 
+void Menu::printStockHistory(const Stock*& stock){
+    int historiesPrinted = 0;
+    std::cout << greenTextStart << "Stock symbol: " << stock->getSymbol() << "\n\n";
+
+    while (historiesPrinted != stock->getHistory().size()){
+        std::cout << greenTextStart << "Day " << historiesPrinted + 1 << " data: \n";
+        stock->getHistory().at(historiesPrinted).printSpecificHistory();
+        historiesPrinted++;
+    }
+}
+
+void Menu::printAllStocksHistories(const StockData& data){
+    for (const Stock& stock : data.getStocks()){
+        int historiesPrinted = 0;
+        std::cout << greenTextStart << "Stock symbol: " << stock.getSymbol() << "\n\n";
+
+        while (historiesPrinted != stock.getHistory().size()){
+            std::cout << greenTextStart << "Day " << historiesPrinted + 1 << " data: \n";
+            stock.getHistory().at(historiesPrinted).printSpecificHistory();
+            historiesPrinted++;
+        }
+    }
+}
+
+void Menu::printViewStockHistoryMenu(){
+    Menu viewStockHistoryMenu;
+    viewStockHistoryMenu.addButton("1", "View Stock History");
+    viewStockHistoryMenu.addButton("2", "Go back");
+
+    std::cout << "Would you like to view " << greenTextStart << "stock history" << coloredTextEnd << "?\n";
+
+    viewStockHistoryMenu.printAllButtons();
+}
+
 //CREATED BY CHATGPT:
 int Menu::menuInputAndCheck(const int min, const int max) { /*Function to check if input is a valid int input (button options)
                                                                 takes lowest (min) and highest (max) button positions as input*/
@@ -299,7 +333,7 @@ int Menu::promptForCashAmount(){
             return 1000000;
         default:
             return 0;
-        }
+    }
 }
 
 std::string Menu::promptForSimulationMode(){
@@ -336,7 +370,7 @@ void Menu::promptToEndSetup(){
     std::system("clear");
 }
 
-int Menu::promptToSearchStockBySymbol(const StockData& stocks){
+int Menu::promptToSearchStockBySymbol(const StockData& stocks, const Stock*& stockTracker){
 
     std::cout << "Please type in the stock's " << greenTextStart << "symbol" << coloredTextEnd << ":\n\n";
     std::string symbol;
@@ -344,11 +378,11 @@ int Menu::promptToSearchStockBySymbol(const StockData& stocks){
 
     std::cout << "\nSearching for stock by " << greenTextStart << "symbol" << coloredTextEnd << "...\n\n";
 
-    const Stock* stock = stocks.getStockBySymbol(symbol);
+    stockTracker = stocks.getStockBySymbol(symbol);
 
-    if(stock != nullptr){
+    if(stockTracker != nullptr){
         std::cout << "Here is all available stock info:\n\n";
-        stock->getInfo();
+        stockTracker->printInfo();
         return 0;
     }
     else{
@@ -357,17 +391,17 @@ int Menu::promptToSearchStockBySymbol(const StockData& stocks){
     }
 }
 
-int Menu::promptToSearchStockByName(const StockData& stocks){
+int Menu::promptToSearchStockByName(const StockData& stocks, const Stock*& stockTracker){
     std::cout << "Please type in the stock's " << greenTextStart << "name" << coloredTextEnd << ":\n\n";
     std::string name;
     std::getline(std::cin, name);
     std::cout << "\nSearching for stock by " << greenTextStart << "name" << coloredTextEnd << "...\n\n";
 
-    const Stock* stock = stocks.getStockByName(name);
+    stockTracker = stocks.getStockByName(name);
 
-    if(stock != nullptr){
+    if(stockTracker != nullptr){
         std::cout << "Here is all available stock info:\n\n";
-        stock->getInfo();
+        stockTracker->printInfo();
         return 0;
     }
     else{
@@ -485,7 +519,7 @@ int Menu::displayPortfolioInterface(const User& user){
 int Menu::displaySearchStockInterface(){
     printSearchStockMenu();
 
-    return menuInputAndCheck(1, 3);
+    return menuInputAndCheck(1, 3); //TESTING
 }
 
 int Menu::displaySearchStockErrorInterface(){
@@ -512,4 +546,9 @@ int Menu::displayViewRankingsInterface(){
     return menuInputAndCheck(1,4);
 }
 
+int Menu::displayViewStockHistoryInterface(){
+    printViewStockHistoryMenu();
+
+    return menuInputAndCheck(1,2);
+}
 //int Menu::displayTopMovers

@@ -44,6 +44,9 @@ public:
     void setHistoricalPotential(const double potential);
     void setHistoricalVolume(const int volume);
 
+    //Functions
+    void printSpecificHistory() const;
+
 };
 
 //Derived class from base class Investment
@@ -82,7 +85,10 @@ public:
     void setVolume(const int volume);
     void setHistory(const std::vector<StockHistory>& history);
 
+    //Other functions
+    void addHistoryRecord(const StockHistory& record);
+
     //Overrides
-    void getInfo() const override;
+    void printInfo() const override;
 };
 #endif

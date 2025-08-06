@@ -43,6 +43,7 @@ bool StockData::loadFromFile(const std::string& filename){
 
             //emplace_back function constructs Stock based on variables and places it in vector
             stocks.emplace_back(name, price, popularity, symbol, sector, volatility, potential, volume);
+            stocks.back().addHistoryRecord(StockHistory(name, price, popularity, symbol, sector, volatility, potential, volume));
 
         } else {
             //If 'if' raises flag, prints error message and bad line using cerr
@@ -73,5 +74,5 @@ const Stock* StockData::getStockByName(const std::string& name) const{
 }
 
 void StockData::printStockInfo(const std::string& symbol){
-    symbolTable[symbol]->getInfo();
+    symbolTable[symbol]->printInfo();
 }

@@ -27,21 +27,21 @@ void User::setCashAmount(const int cash){
 };
 
 void User::addStockShares(const Stock*& stock, int amount){
-    for (auto& pair : stockInventory) {
+    for (auto& pair : shareInventory) {
         if (pair.first->getSymbol() == stock->getSymbol()) {
             pair.second += amount;
             return;
         }
     }
-    stockInventory.push_back({stock, amount});
+    shareInventory.push_back({stock, amount});
 }
 
-const std::vector<std::pair<const Stock*, int>>&  User::getStockInventory() const{
-    return stockInventory;
+const std::vector<std::pair<const Stock*, int>>&  User::getUserInventory() const{
+    return shareInventory;
 }
 
 int User::getShareAmountInInventoryBySymbol(const std::string& symbol) const{
-    for (const std::pair<const Stock*, int>& pair : stockInventory){
+    for (const std::pair<const Stock*, int>& pair : shareInventory){
         if (pair.first->getSymbol() == symbol){
             return pair.second;
         }
@@ -50,7 +50,7 @@ int User::getShareAmountInInventoryBySymbol(const std::string& symbol) const{
 }
 
 int User::getShareAmountInInventoryByName(const std::string& name) const{
-    for (const std::pair<const Stock*, int>& pair : stockInventory){
+    for (const std::pair<const Stock*, int>& pair : shareInventory){
         if (pair.first->getName() == name){
             return pair.second;
         }
@@ -59,11 +59,11 @@ int User::getShareAmountInInventoryByName(const std::string& name) const{
 }
 
 void User::removeStockShares(const std::string& symbol, const int amount){
-    for (auto pair = stockInventory.begin(); pair != stockInventory.end(); pair++){
+    for (auto pair = shareInventory.begin(); pair != shareInventory.end(); pair++){
         if (pair->first->getSymbol() == symbol){
             setCashAmount(getCashAmount() + (pair->first->getPrice() * amount));
             if (pair->second == amount){
-                stockInventory.erase(pair);
+                shareInventory.erase(pair);
             }
             else{
                 pair->second = pair->second - amount;

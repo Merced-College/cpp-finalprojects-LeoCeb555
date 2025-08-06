@@ -21,7 +21,8 @@ void SimulationState::setupSimulation(){
 void SimulationState::runSimulation(){
     int day = 1; //variable to track days, start on first day
     bool inMainInterface = true, inInvestInterface = false, inPortfolioInterface = false,
-        inSearchInterface = false, inBuyInterface = false, inSellInterface = false, inRankingsInterface = false; //bool flags to track 
+        inSearchInterface = false, inBuyInterface = false, inSellInterface = false,
+        inRankingsInterface = false;//bool flags to track 
         //what menu displays and control flow
 
     while(day <= 7){ //simulation occurs for seven days 
@@ -80,11 +81,19 @@ void SimulationState::runSimulation(){
         else if (inSearchInterface){
             switch(Menu::displaySearchStockInterface()){
                 int tracker;
+                const Stock* stockTracker;
                 case 1: //Search by stock ticker symbol
                     do{
-                        tracker = Menu::promptToSearchStockBySymbol(stocks);
+                        tracker = Menu::promptToSearchStockBySymbol(stocks, stockTracker);
                         switch(tracker){
                             case 0:
+                                switch(Menu::displayViewStockHistoryInterface()){
+                                    case 1:
+                                        Menu::printStockHistory(stockTracker);
+                                        break;
+                                    case 2:
+                                        break;
+                                }
                                 break;
                             case 2:
                                 break;
@@ -94,9 +103,16 @@ void SimulationState::runSimulation(){
                 case 2:
                     //Search by stock name
                     do{
-                        tracker = Menu::promptToSearchStockByName(stocks);
+                        tracker = Menu::promptToSearchStockByName(stocks, stockTracker);
                         switch(tracker){
                             case 0:
+                                switch(Menu::displayViewStockHistoryInterface()){
+                                    case 1:
+                                        Menu::printStockHistory(stockTracker);
+                                        break;
+                                    case 2:
+                                        break;
+                                }
                                 break;
                             case 2:
                                 break;

@@ -34,7 +34,7 @@ public:
     //Overrides
 
     //Prints investment info
-    virtual void getInfo() const;
+    virtual void printInfo() const;
 
 };
 
